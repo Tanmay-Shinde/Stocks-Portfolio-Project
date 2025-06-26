@@ -1,5 +1,6 @@
 from database import connection
 from database.silver import calendar_dim, member_dim, holiday_dim, trading_dim
+from database.bronze import symbol_staging
 import sqlalchemy as db
 from sqlalchemy import text
 
@@ -17,7 +18,8 @@ def main():
 
     # BRONZE LAYER SETUP
 
-
+    symbol_staging.setup(engine)
+    symbol_staging.populate(engine)
 
     # SILVER LAYER SETUP
     calendar_dim.setup(engine)
@@ -30,6 +32,8 @@ def main():
 
     trading_dim.setup(engine)
     trading_dim.populate(engine)
+
+
 
     inspector = db.inspect(engine)
     tables = inspector.get_table_names()

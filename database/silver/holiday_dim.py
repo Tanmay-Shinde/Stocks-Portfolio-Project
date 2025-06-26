@@ -16,9 +16,6 @@ def setup(engine):
 
 
 def populate(engine):
-    metadata = db.MetaData()
-    holiday = db.Table('holiday', metadata, autoload_with=engine)
-
     parent_dir = Path('holiday_dim.py').resolve().parent
     file_path = parent_dir / './database/raw_files/nse_holidays_data.csv'
     holidays = pd.read_csv(file_path)
@@ -35,6 +32,9 @@ def populate(engine):
     holidays.dropna(inplace=True)
 
     holidays.to_sql('holiday_dim', con=engine, index=False, if_exists='replace')
+
+    with engine.connect() as conn:
+        conn.execute("ALTER TABLE holiday_dim SET SCHEMA silver")
 
 
 def remove(engine):

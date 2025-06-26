@@ -25,6 +25,9 @@ def setup(engine):
 
     date_dim.to_sql('calendar_dim', con=engine, index=False, if_exists='replace')
 
+    with engine.connect() as conn:
+        conn.execute("ALTER TABLE calendar_dim SET SCHEMA silver")
+
 
 def remove(engine):
     metadata = db.MetaData()

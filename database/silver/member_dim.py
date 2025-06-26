@@ -1,13 +1,13 @@
 import sqlalchemy as db
 from datetime import datetime
-import pandas as pd
+from sqlalchemy import text
 
 
 def setup(engine):
-    metadata = db.MetaDadta()
+    metadata = db.MetaData()
 
     member = db.Table(
-        'member',
+        'member_dim',
         metadata,
         db.Column('member_id', db.Integer, primary_key=True, nullable=False),
         db.Column('first_name', db.String(50), nullable=False),
@@ -19,7 +19,7 @@ def setup(engine):
 
 def populate(engine):
     metadata = db.MetaData()
-    member = db.Table('member', metadata, autoload_with=engine)
+    member = db.Table('member_dim', metadata, autoload_with=engine)
 
     records = [
         (1992,'Jacob','SMITH','2018-06-19'),
@@ -137,6 +137,7 @@ def populate(engine):
 
     with engine.connect() as conn:
         conn.execute(member.insert(), data_to_insert)
+        conn.execute(text("ALTER TABLE member_dim SET SCHEMA silver"))
         conn.commit()
 
 

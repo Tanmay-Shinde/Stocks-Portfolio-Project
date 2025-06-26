@@ -1,5 +1,5 @@
 from database import connection
-from db_setup import calendar_dim, member
+from database.db_setup import calendar_dim, member, holiday_dim
 import sqlalchemy as db
 
 metadata = db.MetaData()
@@ -7,9 +7,16 @@ metadata = db.MetaData()
 
 def main():
     engine = connection.get_engine()
+
     calendar_dim.setup(engine)
+
     member.setup(engine)
     member.populate(engine)
+
+    holiday_dim.setup(engine)
+    holiday_dim.populate(engine)
+
+
 
     inspector = db.inspect(engine)
     tables = inspector.get_table_names()

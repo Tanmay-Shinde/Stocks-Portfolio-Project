@@ -19,8 +19,8 @@ def get_engine():
 
     db_password = os.getenv("DB_PASSWORD")
     db_url = ("postgresql://neondb_owner:" +
-              db_password +
-              "@ep-black-bird-a1vf17nb-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require")
+              str(db_password) +
+              "@ep-black-bird-a1vf17nb-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
 
     engine = db.create_engine(url=db_url)
     return engine

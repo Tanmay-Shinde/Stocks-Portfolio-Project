@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def setup(engine):
-    metadata = db.MetaData()
+    metadata = db.MetaDadta()
 
     member = db.Table(
         'member',
@@ -17,7 +17,7 @@ def setup(engine):
     metadata.create_all(engine)
 
 
-def populate(engine, member):
+def populate(engine):
     metadata = db.MetaData()
     member = db.Table('member', metadata, autoload_with=engine)
 

@@ -1,5 +1,4 @@
 import pandas as pd
-from datetime import datetime
 import sqlalchemy as db
 from pathlib import Path
 
@@ -8,12 +7,13 @@ def setup(engine):
     metadata = db.MetaData()
 
     holiday = db.Table(
-        'holiday', metadata,
+        'holiday_dim', metadata,
         db.Column('holiday_name', db.String(50), nullable=False),
         db.Column('date', db.Date, nullable=False),
         db.Column('day', db.String(10), nullable=False)
     )
     metadata.create_all(engine)
+
 
 def populate(engine):
     metadata = db.MetaData()
@@ -23,7 +23,7 @@ def populate(engine):
     file_path = parent_dir / './database/raw_files/nse_holidays_data.csv'
     holidays = pd.read_csv(file_path)
 
-    holidays.info
+    # holidays.info()
     holidays.drop(columns=['SR. NO.'], inplace=True)
     holidays.rename(columns={'Date': 'date', 'Day':'day', 'Occasion':'holiday_name'}, inplace=True)
 

@@ -35,9 +35,13 @@ def populate(engine):
 
 
 def append(engine, file_path):
+    '''
+        :param engine: sqlalchemy engine to connect to db
+        :param file_path: Assumes that new data is in the same csv format as the Kaggle nse_data
+    '''
     new_data = pd.read_csv(file_path)
     new_data.to_sql('symbols_stage', engine, if_exists='append', index=False)
-    symbols_dim.append(new_data)
+    symbols_dim.append(engine, new_data)
     return True
 
 

@@ -1,6 +1,7 @@
 from database import connection
-from database.db_setup import calendar_dim, member, holiday_dim, trading_dim
+from database.silver import calendar_dim, member_dim, holiday_dim, trading_dim
 import sqlalchemy as db
+from sqlalchemy import text
 
 metadata = db.MetaData()
 
@@ -8,10 +9,21 @@ metadata = db.MetaData()
 def main():
     engine = connection.get_engine()
 
+    with engine.connect() as conn:
+        conn.execute(text("CREATE SCHEMA IF NOT EXISTS bronze"))
+        conn.execute(text("CREATE SCHEMA IF NOT EXISTS silver"))
+        conn.execute(text("CREATE SCHEMA IF NOT EXISTS gold"))
+        conn.commit()
+
+    # BRONZE LAYER SETUP
+
+
+
+    # SILVER LAYER SETUP
     calendar_dim.setup(engine)
 
-    member.setup(engine)
-    member.populate(engine)
+    member_dim.setup(engine)
+    member_dim.populate(engine)
 
     holiday_dim.setup(engine)
     holiday_dim.populate(engine)

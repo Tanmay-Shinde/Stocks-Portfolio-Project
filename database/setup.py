@@ -1,6 +1,6 @@
 from database import connection
-from database.silver import calendar_dim, member_dim, holiday_dim, trading_dim
-from database.bronze import symbol_staging
+from database.silver import calendar_dim, member_dim, holiday_dim, trading_dim, symbols_dim
+from database.bronze import symbol_staging, stock_daily_staging
 import sqlalchemy as db
 from sqlalchemy import text
 
@@ -33,12 +33,30 @@ def main():
     trading_dim.setup(engine)
     trading_dim.populate(engine)
 
+    symbols_dim.setup(engine)
 
+    stock_daily_staging.setup(engine)
+    stock_daily_staging.populate(engine)
 
     inspector = db.inspect(engine)
     tables = inspector.get_table_names()
     print("Created the following tables:")
     print(tables)
+
+    # with engine.connect() as conn:
+    #   result = conn.execute(text("SELECT schema_name FROM information_schema.schemata"))
+    #   for row in result:
+    #   print(row)
+    #
+    #   result = conn.execute(text("""
+    #         SELECT table_schema, table_name
+    #         FROM information_schema.tables
+    #         WHERE table_type = 'BASE TABLE'
+    #         ORDER BY table_schema, table_name;
+    #     """))
+    #
+    #    for row in result:
+    #         print(row)
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def setup(engine):
-    metadata = db.MetaData()
+    metadata = db.MetaData(schema="silver")
 
     holiday = db.Table(
         'holiday_dim', metadata,
@@ -25,19 +25,16 @@ def populate(engine):
     holidays.rename(columns={'Date': 'date', 'Day':'day', 'Occasion':'holiday_name'}, inplace=True)
 
     holidays = holidays[['holiday_name', 'date', 'day']]
-    holidays['date'] = pd.to_datetime(holidays['date'], format='%Y-%m-%d')
+    holidays['date'] = pd.to_datetime(holidays['date'], dayfirst=True)
     holidays['holiday_name'] = holidays['holiday_name'].astype(str)
     holidays['day'] = holidays['day'].astype(str)
 
     holidays.dropna(inplace=True)
 
-    holidays.to_sql('holiday_dim', con=engine, index=False, if_exists='replace')
-
-    with engine.connect() as conn:
-        conn.execute("ALTER TABLE holiday_dim SET SCHEMA silver")
+    holidays.to_sql('holiday_dim', con=engine, schema="silver", index=False, if_exists='replace')
 
 
 def remove(engine):
-    metadata = db.MetaData()
+    metadata = db.MetaData(schema="silver")
     hol_dim = db.Table('holiday_dim', metadata, autoload_with=engine)
     hol_dim.drop(engine)

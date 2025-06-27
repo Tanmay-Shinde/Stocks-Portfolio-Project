@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def setup(engine):
-    metadata = db.MetaData()
+    metadata = db.MetaData(schema='silver')
 
     trading_dim = db.Table(
         'trading_dim', metadata,
@@ -28,9 +28,9 @@ def populate(engine):
     #          "WHERE is_weekend = 0 AND date NOT IN ("
     #          "SELECT date FROM holiday_dim)")
 
-    query = ('SELECT * FROM calendar_dim '
+    query = ('SELECT * FROM silver.calendar_dim '
              'WHERE is_weekend = 0 AND date NOT IN ('
-             'SELECT date FROM holiday_dim)')
+             'SELECT date FROM silver.holiday_dim)')
 
     with engine.connect() as conn:
         res = pd.read_sql_query(query, conn)
@@ -47,10 +47,10 @@ def populate(engine):
     trading_dim["day_of_week"] = trading_dim["day_of_week"].astype(str)
     trading_dim["month"] = trading_dim["month"].astype(str)
 
-    trading_dim.to_sql('trading_dim', con=engine, if_exists='replace', index=False)
+    trading_dim.to_sql('trading_dim', con=engine, schema="silver", if_exists='replace', index=False)
 
 
 def remove(engine):
-    metadata = db.MetaData()
+    metadata = db.MetaData(schema="silver")
     trading_dim = db.Table('trading_dim', metadata, autoload_with=engine)
     trading_dim.drop(engine)

@@ -3,7 +3,7 @@ import sqlalchemy as db
 
 
 def setup(engine):
-    query = "SELECT * FROM symbols_stage"
+    query = "SELECT * FROM bronze.symbols_stage"
 
     with engine.connect() as conn:
         sym_stage = pd.read_sql(query, conn)
@@ -26,7 +26,9 @@ def setup(engine):
     sym_stage.dropna(subset=['symbol_id'], inplace=True)
     sym_stage.drop_duplicates(subset=['symbol_id'], inplace=True)
 
-    sym_stage.to_sql('symbols_dim', con=engine, if_exists='replace', index=False)
+    sym_stage['symbol_id'] = sym_stage['symbol_id'].str.strip(",'")
+
+    sym_stage.to_sql('symbols_dim', con=engine, schema="silver", if_exists='replace', index=False)
 
 
 def append(engine, new_data):
@@ -46,15 +48,17 @@ def append(engine, new_data):
     )
 
     sym_stage = new_data[['symbol_id', 'symbol', 'name_of_company', 'series', 'date_of_listing',
-                           'paid_up_value', 'market_lot', 'isin_number', 'face_value']]
+                          'paid_up_value', 'market_lot', 'isin_number', 'face_value']]
 
     sym_stage.drop_na(subset=['symbol_id'], inplace=True)
     sym_stage.drop_duplicates(subset=['symbol_id'], inplace=True)
 
-    sym_stage.to_sql('symbols_dim', con=engine, if_exists='append', index=False)
+
+
+    sym_stage.to_sql('symbols_dim', con=engine, schema="silver", if_exists='append', index=False)
 
 
 def remove(engine):
-    metadata = db.MetaData()
+    metadata = db.MetaData(schema="silver")
     sym_dim = db.Table('symbols_dim', metadata, autoload_with=engine)
     sym_dim.drop(engine)

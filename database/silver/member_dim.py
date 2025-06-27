@@ -4,7 +4,7 @@ from sqlalchemy import text
 
 
 def setup(engine):
-    metadata = db.MetaData()
+    metadata = db.MetaData(schema="silver")
 
     member = db.Table(
         'member_dim',
@@ -18,7 +18,7 @@ def setup(engine):
 
 
 def populate(engine):
-    metadata = db.MetaData()
+    metadata = db.MetaData(schema="silver")
     member = db.Table('member_dim', metadata, autoload_with=engine)
 
     records = [
@@ -137,11 +137,10 @@ def populate(engine):
 
     with engine.connect() as conn:
         conn.execute(member.insert(), data_to_insert)
-        conn.execute(text("ALTER TABLE member_dim SET SCHEMA silver"))
         conn.commit()
 
 
 def remove(engine):
-    metadata = db.MetaData()
-    member = db.Table('member', metadata, autoload_with=engine)
+    metadata = db.MetaData(schema="silver")
+    member = db.Table('member_dim', metadata, autoload_with=engine)
     member.drop(engine)

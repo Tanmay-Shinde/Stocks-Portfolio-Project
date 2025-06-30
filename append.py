@@ -1,5 +1,5 @@
 from database.bronze import symbol_staging
-from database import connection
+import connection
 
 
 def main():

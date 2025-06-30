@@ -53,8 +53,6 @@ def append(engine, new_data):
     sym_stage.drop_na(subset=['symbol_id'], inplace=True)
     sym_stage.drop_duplicates(subset=['symbol_id'], inplace=True)
 
-
-
     sym_stage.to_sql('symbols_dim', con=engine, schema="silver", if_exists='append', index=False)
 
 

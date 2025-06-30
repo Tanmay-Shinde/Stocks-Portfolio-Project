@@ -1,5 +1,5 @@
 from database import connection
-from database.silver import calendar_dim, member_dim, holiday_dim, trading_dim, symbols_dim
+from database.silver import calendar_dim, member_dim, holiday_dim, trading_dim, symbols_dim, stock_daily_fact
 from database.bronze import symbol_staging, stock_daily_staging
 import sqlalchemy as db
 from sqlalchemy import text
@@ -37,6 +37,8 @@ def main():
 
     stock_daily_staging.setup(engine)
     stock_daily_staging.populate(engine)
+
+    stock_daily_fact.setup(engine)
 
     inspector = db.inspect(engine)
     tables = inspector.get_table_names()

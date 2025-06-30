@@ -1,7 +1,6 @@
 import yfinance as yf
 import sqlalchemy as db
 import pandas as pd
-from sqlalchemy import text
 
 
 def setup(engine):
@@ -72,6 +71,19 @@ def populate(engine):
         df["symbol_id"] = symbol_id
         df.rename(columns={"Date": "date"}, inplace=True)
         df.drop(columns=['Adj Close'], inplace=True)
+
+        df["turn_over"] = df["Volume"] * df["Close"]
+
+        ticker = yf.Ticker(symbol_id)
+        div = ticker.dividends.reset_index().rename(columns={"Date": "date", "Dividends": "dividends"})
+        splits = ticker.splits.reset_index().rename(columns={"Date": "date", "Stock Splits": "stock_splits"})
+
+        div['date'] = div['date'].dt.tz_localize(None)
+        splits['date'] = splits['date'].dt.tz_localize(None)
+
+        df = df.merge(div, on="date", how="left")
+        df = df.merge(splits, on="date", how="left")
+
         all_prices.append(df)
 
     market_data = pd.concat(all_prices)

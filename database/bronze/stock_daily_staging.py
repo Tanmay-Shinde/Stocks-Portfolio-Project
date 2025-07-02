@@ -58,7 +58,7 @@ def populate(engine):
             failed.append((ticker, str(e)))
 
     # valid_data -> 1476
-    failed_lst = [fail_tup[0] for fail_tup in failed] # 182
+    failed_lst = [fail_tup[0] for fail_tup in failed] # 189
 
     base_df_cleaned = base_df[~base_df['symbol_id'].isin(failed_lst)] # (1665 - 189) * 122 = 180072
     # base_df_cleaned.info() --> 180072

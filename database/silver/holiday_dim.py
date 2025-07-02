@@ -17,7 +17,7 @@ def setup(engine):
 
 def populate(engine):
     parent_dir = Path('holiday_dim.py').resolve().parent
-    file_path = parent_dir / './database/raw_files/nse_holidays_data.csv'
+    file_path = parent_dir / './raw_files/nse_holidays_data.csv'
     holidays = pd.read_csv(file_path)
 
     # holidays.info()

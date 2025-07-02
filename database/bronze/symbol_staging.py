@@ -25,7 +25,7 @@ def setup(engine):
 
 def populate(engine):
     parent_dir = Path('symbol_staging.py').resolve().parent
-    file_path = parent_dir / './database/raw_files/nse_data.csv'
+    file_path = parent_dir / './raw_files/nse_data.csv'
     symbols_data = pd.read_csv(file_path)
 
     symbols_data.to_sql('symbols_stage', engine, schema="bronze", if_exists='replace', index=False)

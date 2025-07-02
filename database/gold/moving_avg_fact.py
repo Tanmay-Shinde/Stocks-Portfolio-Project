@@ -11,8 +11,8 @@ def setup(engine):
 
     df['avg_7_days'] = df['Close'].rolling(7).mean()
     df['avg_14_days'] = df['Close'].rolling(14).mean()
-    df['avg_21_days'] = df['Close'].rolling(21).mean()
-    df['avg_28_days'] = df['Close'].rolling(28).mean()
+    # df['avg_21_days'] = df['Close'].rolling(21).mean()
+    # df['avg_28_days'] = df['Close'].rolling(28).mean()
 
     df.to_sql('moving_avg_fact', con=engine, schema="gold", if_exists='replace', index=False)
 

@@ -25,19 +25,26 @@ def setup(engine):
     df['avg_gain_14'] = df.groupby('symbol_id')['gain'].transform(lambda x: x.rolling(14).mean())
     df['avg_loss_14'] = df.groupby('symbol_id')['loss'].transform(lambda x: x.rolling(14).mean())
 
-    df['avg_gain_21'] = df.groupby('symbol_id')['gain'].transform(lambda x: x.rolling(21).mean())
-    df['avg_loss_21'] = df.groupby('symbol_id')['loss'].transform(lambda x: x.rolling(21).mean())
-
-    df['avg_gain_28'] = df.groupby('symbol_id')['gain'].transform(lambda x: x.rolling(28).mean())
-    df['avg_loss_28'] = df.groupby('symbol_id')['loss'].transform(lambda x: x.rolling(28).mean())
+    # df['avg_gain_21'] = df.groupby('symbol_id')['gain'].transform(lambda x: x.rolling(21).mean())
+    # df['avg_loss_21'] = df.groupby('symbol_id')['loss'].transform(lambda x: x.rolling(21).mean())
+    #
+    # df['avg_gain_28'] = df.groupby('symbol_id')['gain'].transform(lambda x: x.rolling(28).mean())
+    # df['avg_loss_28'] = df.groupby('symbol_id')['loss'].transform(lambda x: x.rolling(28).mean())
 
     df['rs_7'] = df['avg_gain_7'] / df['avg_loss_7']
     df['rs_14'] = df['avg_gain_14'] / df['avg_loss_14']
-    df['rs_21'] = df['avg_gain_21'] / df['avg_loss_21']
-    df['rs_28'] = df['avg_gain_28'] / df['avg_loss_28']
+    # df['rs_21'] = df['avg_gain_21'] / df['avg_loss_21']
+    # df['rs_28'] = df['avg_gain_28'] / df['avg_loss_28']
 
     df['rsi_7'] = 100 - (100 / (1 + df['rs_7']))
     df['rsi_14'] = 100 - (100 / (1 + df['rs_14']))
-    df['rsi_21'] = 100 - (100 / (1 + df['rs_21']))
-    df['rsi_28'] = 100 - (100 / (1 + df['rs_28']))
+    # df['rsi_21'] = 100 - (100 / (1 + df['rs_21']))
+    # df['rsi_28'] = 100 - (100 / (1 + df['rs_28']))
 
+    df.to_sql('rsi_index_fact', con=engine, schema="gold", if_exists='replace', index=False)
+    
+
+def remove(engine):
+    metadata = db.MetaData(schema="gold")
+    sym_dim = db.Table('rsi_index_fact', metadata, autoload_with=engine)
+    sym_dim.drop(engine)

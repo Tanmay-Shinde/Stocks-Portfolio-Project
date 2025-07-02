@@ -31,14 +31,14 @@ def populate(engine):
         dates = pd.read_sql(query2, conn)
 
     # symbols.info() --> 1665 rows
-    # dates.info() --> 493 rows
-    # base_df must have 1665 x 493 = 820845 rows
+    # dates.info() --> 122 rows
+    # base_df must have 1665 x 122 = 203130 rows
 
     symbols['key'] = 1
     dates['key'] = 1
     base_df = pd.merge(symbols, dates, on='key').drop("key", axis=1)
 
-    # base_df.info() -> 820845 rows
+    # base_df.info() -> 203130 rows
 
     tickers = symbols['symbol_id'].unique().tolist()
     start = dates['date'].min()
@@ -57,11 +57,11 @@ def populate(engine):
         except Exception as e:
             failed.append((ticker, str(e)))
 
-    # valid_data -> 1483
+    # valid_data -> 1476
     failed_lst = [fail_tup[0] for fail_tup in failed] # 182
 
-    base_df_cleaned = base_df[~base_df['symbol_id'].isin(failed_lst)] # (1665 - 182) * 493 = 731119
-    # base_df_cleaned.info() --> 731119
+    base_df_cleaned = base_df[~base_df['symbol_id'].isin(failed_lst)] # (1665 - 189) * 122 = 180072
+    # base_df_cleaned.info() --> 180072
 
     all_prices = []
 

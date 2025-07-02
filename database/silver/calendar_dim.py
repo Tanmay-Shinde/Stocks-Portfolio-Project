@@ -5,8 +5,8 @@ from sqlalchemy import text
 
 
 def setup(engine):
-    start_date = '2023-06-20'
-    end_date = '2025-06-20'
+    start_date = '2025-01-01'
+    end_date = '2025-06-30'
 
     date_range = pd.date_range(start_date, end_date)
 

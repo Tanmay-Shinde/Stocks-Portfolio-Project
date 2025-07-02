@@ -50,7 +50,8 @@ def main():
     moving_avg_fact.setup(engine)
     rsi_index_fact.setup(engine)
     buy_sell_moving_avg_fact.setup(engine)
-
+    member_buy_sell.setup(engine)
+    gainers_losers.setup(engine)
 
     inspector = db.inspect(engine)
     tables = inspector.get_table_names()

@@ -1,17 +1,17 @@
-﻿# 📊 Stocks Portfolio Project
+﻿# Stocks Portfolio Project
 
 A modular, end-to-end data engineering project for stock market analytics using **Python**, **PostgreSQL (NeonDB)**, and **SQLAlchemy**. The project ingests raw NSE (National Stock Exchange) data, processes it through **Bronze** → **Silver** → **Gold** layered pipelines, and generates **technical indicators** like **moving averages**, **RSI**, and **buy/sell signals**.
 
 This project simulates a **real-world data warehouse** and trading signal generator pipeline, complete with fact/dimension modeling and historical market analytics.
 
-## 🚀 Features
+## Features
 - Bronze/Silver/Gold architecture following data lakehouse principles.
 - Technical indicators: 7/14/21/28-day Moving Averages and RSI.
 - Trading strategy simulation based on moving average crossovers.
 - Buy/Sell signal generation and client trade simulations.
 - Clean, reproducible, modular Python codebase.
 
-## 📁 File Structure
+## File Structure
 ```
 database/
 ├── bronze/                # Staging layer scripts for raw data ingestion
@@ -41,7 +41,7 @@ setup.py                   # One-step script to build the entire pipeline
 README.md
 ```
 
-## 🔑 Setup Instructions
+## Setup Instructions
 
 ### 1. Clone the repository
 Run the following commands in bash/cmd:
@@ -60,7 +60,7 @@ Create a `.env` file in the root directory and include your database connection 
 
 ⚠️ *Make sure .env is included in .gitignore for security.*
 
-## 🧪 Replicating the Project
+## Replicating the Project
 Once your .env and other files are in place, run the full pipeline setup:
 ```
 python setup.py
@@ -70,7 +70,7 @@ This will:
 - Create and populate all bronze, silver, and gold layer tables
 - Output logs for each transformation step
 
-## 🙏 Acknowledgements:
+## Acknowledgements:
 | Type                       | Tool / Library                                                                                                                            |
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | **Dataset**             | [NSE Tickers Data](https://www.kaggle.com/datasets/ianalyticsgeek/nse-tickers-their-yahoo-finance-equivalent-codes?resource=download) – Base stock market data containing ticker information. |
@@ -84,7 +84,7 @@ This will:
 | **File Paths**          | [pathlib](https://docs.python.org/3/library/pathlib.html) – Clean and platform-independent file paths.                                    |
 | **IDE**                 | [PyCharm](https://www.jetbrains.com/pycharm/) – Development environment used to build and manage this project.                            |
 
-## 📄 License
+## License
 This project is open-source and available under the [MIT License](./LICENSE.md).
 
 **Disclaimer:** This project is for educational and personal learning purposes only. I am not a financial advisor, and this project **does not constitute financial advice**. The trading signals, analysis, or tools presented here **should not be used for real-world investment decisions**.

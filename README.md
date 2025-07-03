@@ -32,7 +32,7 @@ database/
 │   ├── gainers_losers.py
 │   └── member_buy_sell.py
 raw_files/
-├── nse_data.csv           # Historical daily stock data
+├── nse_data.csv           # NSE tickers data 
 ├── nse_holidays_data.csv  # Market holiday dates
 .env                       # Contains DB credentials (not version-controlled)
 append.py                  # Utility to append or manage table data

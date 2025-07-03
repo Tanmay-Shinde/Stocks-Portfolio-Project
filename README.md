@@ -86,3 +86,5 @@ This will:
 
 ## 📄 License
 This project is open-source and available under the [MIT License](./LICENSE.md).
+
+**Disclaimer:** This project is for educational and personal learning purposes only. I am not a financial advisor, and this project **does not constitute financial advice**. The trading signals, analysis, or tools presented here **should not be used for real-world investment decisions**.

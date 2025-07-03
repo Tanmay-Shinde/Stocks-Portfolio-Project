@@ -85,4 +85,4 @@ This will:
 | **IDE**                 | [PyCharm](https://www.jetbrains.com/pycharm/) – Development environment used to build and manage this project.                            |
 
 ## 📄 License
-This project is open-source and available under the MIT License.
+This project is open-source and available under the [MIT License](./LICENSE.md).
